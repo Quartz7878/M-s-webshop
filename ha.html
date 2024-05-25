@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Home Appliances</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+        }
+
+        header .home-button {
+            background-color: white;
+            color: #4CAF50;
+            padding: 0.5rem 1rem;
+            margin-right: 1rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        header .home-button:hover {
+            background-color: #ddd;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .product {
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .product h2 {
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .product p {
+            color: #555;
+        }
+
+        .product .price {
+            font-size: 1.2rem;
+            color: #4CAF50;
+            margin: 0.5rem 0;
+        }
+
+        .product .add-to-cart {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .product .add-to-cart:hover {
+            background-color: #45a049;
+        }
+
+        .product-description {
+            display: none;
+            padding: 1rem;
+            text-align: left;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="home-button">Home</a>
+        <h1>Our Home Appliances</h1>
+    </header>
+    <main>
+        <div class="product-list">
+            <!-- Product items will be added here by JavaScript -->
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const products = [
+                { name: 'Vacuum Cleaner', price: '$99', img: 'https://via.placeholder.com/200', description: 'A powerful vacuum cleaner for all surfaces.' },
+                { name: 'Blender', price: '$49', img: 'https://via.placeholder.com/200', description: 'A high-speed blender for smoothies and soups.' },
+                { name: 'Microwave', price: '$199', img: 'https://via.placeholder.com/200', description: 'A microwave with multiple cooking settings.' },
+                { name: 'Refrigerator', price: '$499', img: 'https://via.placeholder.com/200', description: 'A spacious refrigerator with energy-saving features.' },
+                { name: 'Dishwasher', price: '$299', img: 'https://via.placeholder.com/200', description: 'An efficient dishwasher with multiple wash settings.' },
+                { name: 'Air Conditioner', price: '$399', img: 'https://via.placeholder.com/200', description: 'A high-capacity air conditioner for large rooms.' },
+                { name: 'Washing Machine', price: '$349', img: 'https://via.placeholder.com/200', description: 'A washing machine with various wash programs.' },
+                { name: 'Dryer', price: '$299', img: 'https://via.placeholder.com/200', description: 'A high-efficiency dryer with multiple drying options.' },
+                { name: 'Toaster', price: '$29', img: 'https://via.placeholder.com/200', description: 'A compact toaster with adjustable browning control.' },
+                { name: 'Coffee Maker', price: '$69', img: 'https://via.placeholder.com/200', description: 'A programmable coffee maker with a built-in grinder.' },
+                { name: 'Mixer', price: '$89', img: 'https://via.placeholder.com/200', description: 'A powerful mixer for baking and cooking.' },
+                { name: 'Oven', price: '$599', img: 'https://via.placeholder.com/200', description: 'A convection oven with multiple cooking modes.' },
+                { name: 'Electric Kettle', price: '$39', img: 'https://via.placeholder.com/200', description: 'A fast-boiling electric kettle with auto-shutoff.' },
+                { name: 'Slow Cooker', price: '$49', img: 'https://via.placeholder.com/200', description: 'A slow cooker for making stews and soups.' },
+                { name: 'Rice Cooker', price: '$59', img: 'https://via.placeholder.com/200', description: 'An automatic rice cooker with a keep-warm function.' },
+                { name: 'Food Processor', price: '$129', img: 'https://via.placeholder.com/200', description: 'A versatile food processor for chopping and blending.' },
+                { name: 'Induction Cooktop', price: '$149', img: 'https://via.placeholder.com/200', description: 'A portable induction cooktop with precise temperature control.' },
+                { name: 'Juicer', price: '$99', img: 'https://via.placeholder.com/200', description: 'A high-yield juicer for fruits and vegetables.' },
+                { name: 'Air Fryer', price: '$119', img: 'https://via.placeholder.com/200', description: 'A compact air fryer for healthy cooking.' },
+                { name: 'Dehumidifier', price: '$199', img: 'https://via.placeholder.com/200', description: 'A powerful dehumidifier for large spaces.' }
+            ];
+
+            const productContainer = document.querySelector('.product-list');
+
+            products.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add('product');
+
+                productElement.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}" />
+                    <h2>${product.name}</h2>
+                    <p class="price">${product.price}</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-description">${product.description}</div>
+                `;
+
+                productElement.querySelector('img').addEventListener('click', () => {
+                    const description = productElement.querySelector('.product-description');
+                    description.style.display = description.style.display === 'none' || !description.style.display ? 'block' : 'none';
+                });
+
+                productContainer.appendChild(productElement);
+            });
+        });
+    </script>
+</body>
+</html>

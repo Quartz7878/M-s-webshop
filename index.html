@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Store</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: white;
+        }
+
+        header {
+            background-color: #f56b15;
+            color: #000000;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            top: 50%;
+        }
+
+        .search-container input[type="text"] {
+            padding: 0.5rem;
+            position: absolute;
+            left: 80%;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+            flex-grow: 1;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+        }
+
+        .search-container button {
+            padding: 0.5rem;
+            background-color: #000000;
+            color: #fff;
+            border: none;
+            position: absolute;
+            left: 89%;
+            transform: translate(-50%, -50%);
+            top: 50%;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-left: 0.25rem;
+        }
+
+        .search-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .menu-icon {
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: relative;
+            left: 20px;
+        }
+
+        nav {
+            background-color: #f56b15;
+            color: #000000;
+            width: 200px;
+            position: fixed;
+            top: 60px;
+            bottom: 0;
+            left: 0;
+            padding-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        nav.hidden {
+            transform: translateX(-100%);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 100%;
+        }
+
+        nav ul li {
+            margin: 1rem 0;
+            width: 100%;
+            text-align: center;
+        }
+
+        nav ul li a {
+            color: #000000;
+            text-decoration: none;
+            font-size: 1.2rem;
+            display: block;
+            padding: 0.5rem 1rem;
+            width: 100%;
+        }
+
+        main {
+            margin-top: 60px;
+            margin-left: 220px;
+            padding-top: 100px;
+        }
+
+        .product-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            padding: 1rem;
+        }
+
+        .product {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 1rem;
+            padding: 1rem;
+            width: calc(25% - 2rem);
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .product h3 {
+            margin: 0.5rem 0;
+        }
+
+        .product p {
+            margin: 0.5rem 0;
+            color: #888;
+        }
+
+        .product button {
+            padding: 0.5rem 1rem;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .product button:hover {
+            background-color: #218838;
+        }
+
+        #explore-more {
+            display: block;
+            margin: 2rem auto;
+            padding: 0.5rem 2rem;
+            background-color: #000000;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        #explore-more:hover {
+            background-color: #767676;
+        }
+
+        #searchResults {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="menu-icon" id="menu-icon">&#9776;</div>
+        <h1>Product Store</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search products...">
+            <button id="searchButton">Search</button>
+        </div>
+    </header>
+    <nav id="navbar" class="hidden">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="product.html">Products</a></li>
+            <li><a href="logsign.html">Login/Signup</a></li>
+            <li><a href="cart.html">Cart</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#help">Help</a></li>
+        </ul>
+    </nav>
+    <main>
+        <section id="home">
+            <h2>Featured Products</h2>
+            <div class="product-container" id="featured-products">
+                <!-- Featured products will be dynamically added here -->
+            </div>
+        </section>
+        <section id="products">
+            <h2>All Products</h2>
+            <div class="product-container" id="more-products">
+                <!-- More products will be dynamically added here -->
+            </div>
+        </section>
+        <button id="explore-more">Explore More</button>
+        <div id="searchResults"></div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuIcon = document.getElementById('menu-icon');
+            const navbar = document.getElementById('navbar');
+
+            // Toggle navigation menu
+            menuIcon.addEventListener('click', () => {
+                navbar.classList.toggle('hidden');
+            });
+
+            // Featured products data
+            const featuredProducts = [
+                { id: 1, name: 'AROEVE Air Purifiers for Home, Air Purifier Air Cleaner For Smoke Pollen Dander', price: 29.99, image: 'p1.png' },
+                { id: 2, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 3, name: 'Microwear W17 Smart Watch', price: 49.99, image: 'p3.jpg' },
+                { id: 4, name: 'Jabra Elite 8 Active ANC True Wireless In-Ear Headphones', price: 19.99, image: 'p4.jpg' }
+            ];
+
+            // More products data
+            const moreProducts = [
+                { id: 5, name: 'Asus Mouse- Black F638(Black)', price: 9.99, image: 'p5.jpg' },
+                { id: 6, name: 'ZEBRONICS Zeb- DLK01 Multimedia Keyboard Wired USB Desktop Keyboard (White)', price: 14.99, image: 'p6.jpg' },
+                { id: 7, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 8, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 9, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 10, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 11, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 12, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 13, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 14, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 15, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 16, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 17, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 18, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 19, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+                { id: 20, name: 'Respicare BiPAP Machine', price: 39.99, image: 'p2.jpg' },
+            ];
+
+            // Initialize cart
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Function to render products
+            function renderProducts(container, products) {
+                container.innerHTML = ''; // Clear the container first
+                products.forEach(product => {
+                    const productElement = document.createElement('div');
+                    productElement.classList.add('product');
+                    productElement.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>$${product.price}</p>
+                        <button data-id="${product.id}">Add to Cart</button>
+                    `;
+                    container.appendChild(productElement);
+                });
+
+                // Add event listeners to Add to Cart buttons
+                container.querySelectorAll('button').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const productId = parseInt(event.target.getAttribute('data-id'));
+                        addToCart(productId);
+                    });
+                });
+            }
+
+            // Render featured products
+            const featuredProductsContainer = document.getElementById('featured-products');
+            renderProducts(featuredProductsContainer, featuredProducts);
+
+            // Render more products
+            const moreProductsContainer = document.getElementById('more-products');
+            renderProducts(moreProductsContainer, moreProducts);
+
+            // Handle Explore More button click
+            const exploreMoreButton = document.getElementById('explore-more');
+            exploreMoreButton.addEventListener('click', () => {
+                window.location.href = 'product.html';
+            });
+
+            // Search button functionality
+            document.getElementById("searchButton").addEventListener("click", function() {
+                const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+                window.location.href = `searchresult.html?search=${encodeURIComponent(searchTerm)}`;
+            });
+
+            // Handle Enter key press in the search input
+            document.getElementById("searchInput").addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    const searchTerm = document.getElementById("searchInput").value.toLowerCase();
+                    window.location.href = `searchresult.html?search=${encodeURIComponent(searchTerm)}`;
+                }
+            });
+
+            // Add to cart function
+            function addToCart(id) {
+                const product = featuredProducts.concat(moreProducts).find(product => product.id === id);
+                if (product) {
+                    const cartItem = cart.find(item => item.id === product.id);
+                    if (cartItem) {
+                        cartItem.quantity++;
+                    } else {
+                        cart.push({ ...product, quantity: 1 });
+                    }
+                    localStorage.setItem('cart', JSON.stringify(cart));
+                    alert(`${product.name} has been added to the cart`);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

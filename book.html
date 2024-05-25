@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Books</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+        }
+
+        header .home-button {
+            background-color: white;
+            color: #4CAF50;
+            padding: 0.5rem 1rem;
+            margin-right: 1rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        header .home-button:hover {
+            background-color: #ddd;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .product {
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .product h2 {
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .product p {
+            color: #555;
+        }
+
+        .product .price {
+            font-size: 1.2rem;
+            color: #4CAF50;
+            margin: 0.5rem 0;
+        }
+
+        .product .add-to-cart {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .product .add-to-cart:hover {
+            background-color: #45a049;
+        }
+
+        .product-description {
+            display: none;
+            padding: 1rem;
+            text-align: left;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="home-button">Home</a>
+        <h1>Our Books</h1>
+    </header>
+    <main>
+        <div class="product-list">
+            <!-- Product items will be added here by JavaScript -->
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const products = [
+                { name: 'The Bridges of Madison County ', price: '$7.99', img: 'b1.png', description: 'This is a romance novel about an Italian American war bride, who carries on a passionate affair with a traveling photographer while her family is at the State Fair. In 1995, Clint Eastwood turned it into a romantic drama starring himself and Meryl Streep. A Broadway musical released in 2014 was nominated for four Tonys and won two, for its Original Score and Orchestrations.' },
+                { name: 'The Catcher in the Rye', price: '$9.99', img: 'b2.jpg', description: 'The definitive coming-of-age tale of an adolescent male, The Catcher in the Rye was Salingers only full length novel. It made Holden Caulfield, expelled prep student and hater of all things "phony," a literary hero—or antihero, depending on how much you can tolerate him. Salinger, a notorious recluse, died in 2010, but according to his son, five decades of his unpublished writing may soon see the light of day .' },
+                { name: 'Harry Potter and the Deathly Hallows', price: '$7.99', img: 'b3.jpg', description: 'In the seventh and final book in the Potter series, Harry, Hermione, and Ron are on the run, on a mission to weaken and defeat Lord Voldemort once and for all. Its launch was accompanied by a massive anti-spoiler campaign, and debates about Snapes loyalties ran rampant.' },
+                { name: 'Harry Potter and the Order of the Phoenix', price: '$9.99', img: 'b4.jpg', description: 'Book 5 is the longest of the seven, and when it initially launched, it was considered by many to be the weakest link; it takes awhile for the plot to get rolling, and Harry is really angry for the entire book. But time has been kind to it. Its the falling action to Goblet of Fires climax, and it does a lot of world-building, expanding Harrys trio to include Luna, Ginny, and Neville.' },
+                { name: 'Harry Potter and the Goblet of Fire', price: '$6.99', img: 'b5.jpg', description: 'Possibly the strongest Potter novel, Goblet of Fire expands the scope of the Wizarding World with the introduction of the Triwizard tournament. It includes one of the series, best twists, and it marks a shift away from the light whimsy of the first book. Theres death, violence, and high stakes from here on out.' },
+                { name: 'Harry Potter and the Prisoner of Azkaban', price: '$8.99', img: 'b6.jpg', description: 'Prose-wise, this book is a leap forward in maturity, and it marked the moment that many Potter readers became Potter fans. Harrys third year is beset by new challenges—most notably, a murderous, escaped wizard who might provide answers about his parents deaths.' },
+                { name: 'The Alchemist (O Alquimista)', price: '$18.49', img: 'b7.jpg', description: 'This novel, about a Spanish shepherd who travels to Egypt in search of treasure, was a flop when a small publishing house snapped up the rights in 1988. But after the company gave Coelho back the rights, he continued his attempts to get his novel published and seen. Today, his tenacity has paid off; Coelho characterizes his desire to be seen as "fate." Original language: Portuguese.' },
+                { name: 'Harry Potter and the Chamber of Secrets', price: '$19.99', img: 'b8.jpg', description: 'Its hard to follow lightning in a bottle. And although Chamber of Secrets is probably the weakest Potter book, it establishes a bigger wizarding society beyond Hogwarts walls. We learn more about the schools founders. And Rowling keeps us interested enough to pick up Prisoner of Azkaban, which is where the fun really starts.' },
+                { name: 'The Da Vinci Code', price: '$29', img: 'b9.jpg', description: 'Through a combination of short chapters, forward momentum, narrative twists, and church conspiracies, The Da Vinci Code was a pop culture phenomenon, prompting many readers to delve into its explosive, controversial claims that Jesus had a blood descendant, and there was a fanatical sect of Catholicism dedicated to hiding the truth. The critics panned The Da Vinci Code, but the people made it into a commercial success.' },
+                { name: 'She: A History of Adventure', price: '$19.99', img: 'b10.jpg', description: 'A story of two explorers who discover a lost kingdom in the heart of Africa, She: A History of Adventure was a pivotal work of literature in the fantasy genre. Any media that details the hunt for a lost civilization—like Shangri-La—or the mysticism and magic of a forgotten place, owes a debt to this novel. In popular media, both the Indiana Jones and Tarzan franchises borrow liberally from She.' },
+                { name: 'The Lion, the Witch and the Wardrobe', price: '$19', img: 'b11.jpg', description: 'Four children walk through a wardrobe and wind up in a wintry wonderland known as Narnia. Fauns and talking animals are ruled by an evil White Witch, who displaced the true ruler of Narnia—a massive, god-like lion named Aslan. A benchmark of childrens literature, the book led to six sequels, which are collectively known as The Chronicles of Narnia.' },
+                { name: 'The Hobbit', price: '$14.99', img: 'b12.jpg', description: 'Before The Lord of The Rings, there was The Hobbit, a childrens book about a hobbit named Bilbo Baggins, and the quest he goes on with a wizard and 13 dwarves to claim their ancestral home from a dragon. Originally a standalone work, The Hobbit was incorporated into Middle-earth as The Lord of the Rings took shape, and Tolkien added additional, contextual details in later Hobbit editions.' },
+                { name: 'And Then There Were None', price: '$19', img: 'b13.jpg', description: 'Considered by the author herself to be one of her best written works, And Then There Were None is a murder mystery that traps ten people on an island. One of them is a murderer, and as each of them begin dying one-by-one in accordance to a nursery rhyme, the survivors try to solve the mystery to save themselves.' },
+                { name: 'Harry Potter and the Sorcerers Stone', price: '$29.99', img: 'b14.jpg', description: 'The first book about The Boy Who Lived is the shortest one, and it is perhaps the most magical one—no other book in the series captures the same sort of childish wonderment that Harry experiences when he enters the wizarding world for the first time. There were boarding school novels before Rowlings, and there were boy wizards before her Chosen One. But nothing has captured the popular imagination quite like Harry Potter, before or since.' },
+                { name: 'The Little Prince (Le Petit Prince)', price: '$19.99', img: 'b15.jpg', description: 'An impenetrable tale of uncommon beauty, The Little Prince captures something whimsical and fleeting about childhood—and the limited view that comes with adulthood and conformity. It is, in a literal sense, about a boy prince who travels from his home asteroid to other planets. But its been alternately interpreted as a commentary on war, and even as a Biblical allegory.' },
+                { name: 'A Tale of Two Cities', price: '$12.99', img: 'b16.jpg', description: '"It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair…" So begins Dickens the most famous novel, a historical fiction narrative set during the French Revolution. Like most of Dickens works, it deals with matters of class, the desperation of the poor, and the decadence of the wealthy.' },
+                { name: 'Don Quixote', price: '$14.99', img: 'b17.jpg', description: 'Originally published in two volumes, Don Quixote is an epic tragicomedy about a man so subsumed in tales of knighthood and gallantry that he imagines he is a knight, and he enlists a peasant man and woman as his "squire" and his "lady." Multiple scenes in the book have become iconic, especially Don Quixotes battle with the windmills, which he imagines to be fearsome giants.' },
+                { name: 'Dream of the Red Chamber', price: '$29', img: 'b18.jpg', description: 'Dream of the Red Chamber is widely considered one of the great Chinese novels from the pre-Modern era. Written during the Qing Dynasty—the last Imperial dynasty before the 1911 Revolution brought the monarchy to its end—it depicts the success and fall of a noble family, and it is well-known for its nuanced depictions of female characters.' },
+            ];
+
+            const productContainer = document.querySelector('.product-list');
+
+            products.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add('product');
+
+                productElement.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}" />
+                    <h2>${product.name}</h2>
+                    <p class="price">${product.price}</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-description">${product.description}</div>
+                `;
+
+                productElement.querySelector('img').addEventListener('click', () => {
+                    const description = productElement.querySelector('.product-description');
+                    description.style.display = description.style.display === 'none' || !description.style.display ? 'block' : 'none';
+                });
+
+                productContainer.appendChild(productElement);
+            });
+        });
+    </script>
+</body>
+</html>

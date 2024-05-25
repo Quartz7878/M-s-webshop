@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: repeating-linear-gradient(
+                45deg,
+                #f56b15,
+                #ffffff 10px,
+                #f56b15 10px,
+                #ffffff 20px
+              );
+            }
+
+        .container {
+            background-color: rgb(255, 163, 106);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 300px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        .button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.5rem;
+            margin: 0.5rem 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .button img {
+            margin-right: 0.5rem;
+        }
+
+        .google-button {
+            background-color: #4285F4;
+            color: white;
+        }
+
+        .facebook-button {
+            background-color: #3b5998;
+            color: white;
+        }
+
+        .signup-link {
+            display: block;
+            margin-top: 1rem;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        .signup-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <button class="button google-button" onclick="onGoogleSignIn()">
+            <img src="glogo.jpg" width="20" height="20" alt="Google logo">
+            Sign in with Google
+        </button>
+        <button class="button facebook-button" onclick="onFacebookSignIn()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png" width="20" height="20" alt="Facebook logo">
+            Sign in with Facebook
+        </button>
+        <p>Do not have an account?</p>
+        <a href="signup.html" class="signup-link">Sign Up</a>
+    </div>
+
+    <script>
+        // Google Sign-In
+        function onGoogleSignIn() {
+            gapi.load('auth2', function() {
+                const auth2 = gapi.auth2.init({
+                    client_id: 'YOUR_GOOGLE_CLIENT_ID',
+                });
+
+                auth2.signIn().then(function(googleUser) {
+                    const profile = googleUser.getBasicProfile();
+                    console.log('ID: ' + profile.getId());
+                    console.log('Name: ' + profile.getName());
+                    console.log('Image URL: ' + profile.getImageUrl());
+                    console.log('Email: ' + profile.getEmail());
+                }).catch(function(error) {
+                    console.error(error);
+                });
+            });
+        }
+
+        // Facebook Sign-In
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: 'YOUR_FACEBOOK_APP_ID',
+                cookie: true,
+                xfbml: true,
+                version: 'v12.0'
+            });
+        };
+
+        function onFacebookSignIn() {
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    FB.api('/me', { fields: 'id,name,email,picture' }, function(response) {
+                        console.log('Good to see you, ' + response.name + '.');
+                        console.log('ID: ' + response.id);
+                        console.log('Email: ' + response.email);
+                        console.log('Picture URL: ' + response.picture.data.url);
+                    });
+                } else {
+                    console.error('User cancelled login or did not fully authorize.');
+                }
+            }, { scope: 'public_profile,email' });
+        }
+    </script>
+</body>
+</html>

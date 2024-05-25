@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Clothing</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            background-color: #4CAF50;
+            color: white;
+            padding: 1rem;
+        }
+
+        header .home-button {
+            background-color: white;
+            color: #4CAF50;
+            padding: 0.5rem 1rem;
+            margin-right: 1rem;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        header .home-button:hover {
+            background-color: #ddd;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        main {
+            padding: 2rem;
+        }
+
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .product {
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .product h2 {
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .product p {
+            color: #555;
+        }
+
+        .product .price {
+            font-size: 1.2rem;
+            color: #4CAF50;
+            margin: 0.5rem 0;
+        }
+
+        .product .add-to-cart {
+            background-color: #4CAF50;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .product .add-to-cart:hover {
+            background-color: #45a049;
+        }
+
+        .product-description {
+            display: none;
+            padding: 1rem;
+            text-align: left;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="home-button">Home</a>
+        <h1>Our Clothing</h1>
+    </header>
+    <main>
+        <div class="product-list">
+            <!-- Product items will be added here by JavaScript -->
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const products = [
+                { name: 'T-Shirt', price: '$19', img: 'tshirt.jpg', description: 'A comfortable cotton t-shirt available in various colors.' },
+                { name: 'Jeans', price: '$49', img: 'jeans.jpg', description: 'Stylish denim jeans with a perfect fit.' },
+                { name: 'Jacket', price: '$99', img: 'jacket.jpg', description: 'A warm and cozy jacket for winter.' },
+                { name: 'Sneakers', price: '$69', img: 'sneakers.jpg', description: 'Comfortable sneakers for everyday use.' },
+                { name: 'Dress', price: '$79', img: 'dress.jpg', description: 'A beautiful evening dress for special occasions.' },
+                { name: 'Sweater', price: '$39', img: 'sweater.jpg', description: 'A warm sweater made of high-quality wool.' },
+                { name: 'Shorts', price: '$29', img: 'shorts.jpg', description: 'Casual shorts perfect for summer.' },
+                { name: 'Hat', price: '$15', img: 'hat.jpg', description: 'A stylish hat to complete your look.' },
+                { name: 'Scarf', price: '$20', img: 'scarf.jpg', description: 'A soft scarf to keep you warm.' },
+                { name: 'Gloves', price: '$25', img: 'gloves.jpg', description: 'Warm gloves for winter.' },
+                { name: 'Socks', price: '$10', img: 'socks.jpg', description: 'Comfortable socks available in various sizes.' },
+                { name: 'Belt', price: '$25', img: 'belt.jpg', description: 'A leather belt to complement your outfit.' },
+                { name: 'Suit', price: '$199', img: 'suit.jpg', description: 'A formal suit perfect for business meetings.' },
+                { name: 'Tie', price: '$20', img: 'tie.jpg', description: 'A silk tie available in various patterns.' },
+                { name: 'Blouse', price: '$35', img: 'blouse.jpg', description: 'A stylish blouse for office wear.' },
+                { name: 'Skirt', price: '$40', img: 'skirt.jpg', description: 'A trendy skirt for casual outings.' },
+                { name: 'Boots', price: '$89', img: 'boots.jpg', description: 'Durable boots for outdoor activities.' },
+                { name: 'Pajamas', price: '$30', img: 'pajamas.jpg', description: 'Comfortable pajamas for a good night\'s sleep.' },
+                { name: 'Coat', price: '$120', img: 'coat.jpg', description: 'A stylish coat to keep you warm during winter.' },
+                { name: 'Sandals', price: '$25', img: 'sandals.jpg', description: 'Comfortable sandals for summer.' }
+            ];
+
+            const productContainer = document.querySelector('.product-list');
+
+            products.forEach(product => {
+                const productElement = document.createElement('div');
+                productElement.classList.add('product');
+
+                productElement.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}" />
+                    <h2>${product.name}</h2>
+                    <p class="price">${product.price}</p>
+                    <button class="add-to-cart">Add to Cart</button>
+                    <div class="product-description">${product.description}</div>
+                `;
+
+                productElement.querySelector('img').addEventListener('click', () => {
+                    const description = productElement.querySelector('.product-description');
+                    description.style.display = description.style.display === 'none' || !description.style.display ? 'block' : 'none';
+                });
+
+                productContainer.appendChild(productElement);
+            });
+        });
+    </script>
+</body>
+</html>

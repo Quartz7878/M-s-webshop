@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .home-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        .home-button a {
+            text-decoration: none;
+            background-color: orange;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            padding-top: 60px; /* Adjust padding to avoid overlap with the home button */
+        }
+        .cart {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .cart th, .cart td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        .cart th {
+            background-color: orange;
+            color: white;
+        }
+        .cart td {
+            text-align: center;
+        }
+        .cart img {
+            width: 50px;
+            height: 50px;
+        }
+        .cart-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        .cart-actions button {
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .cart-actions button:hover {
+            background-color: darkorange;
+        }
+        .total {
+            font-size: 1.5em;
+            margin-top: 20px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="home-button">
+        <a href="index.html">Home</a>
+    </div>
+    <div class="container">
+        <h1>Shopping Cart</h1>
+        <table class="cart">
+            <thead>
+                <tr>
+                    <th>Product Image</th>
+                    <th>Product Name</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Remove</th>
+                </tr>
+            </thead>
+            <tbody id="cart-items">
+                <!-- Cart items will be dynamically inserted here -->
+            </tbody>
+        </table>
+        <div class="cart-actions">
+            <button onclick="clearCart()">Clear Cart</button>
+            <button onclick="checkout()">Checkout</button>
+        </div>
+        <div class="total" id="total-amount">Total: $0.00</div>
+    </div>
+
+    <script>
+        let cart = JSON.parse(localStorage.getItem('cart')) || [
+            {id: 1, name: 'Product 1', price: 10, quantity: 2, image: 'https://via.placeholder.com/50'},
+            {id: 2, name: 'Product 2', price: 15, quantity: 1, image: 'https://via.placeholder.com/50'},
+            {id: 3, name: 'Product 3', price: 7.5, quantity: 3, image: 'https://via.placeholder.com/50'}
+        ];
+
+        function loadCart() {
+            const cartItems = document.getElementById('cart-items');
+            cartItems.innerHTML = '';
+            cart.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><img src="${item.image}" alt="${item.name}"></td>
+                    <td>${item.name}</td>
+                    <td>$${item.price.toFixed(2)}</td>
+                    <td><input type="number" value="${item.quantity}" min="1" onchange="updateQuantity(${item.id}, this.value)"></td>
+                    <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                    <td><button onclick="removeItem(${item.id})">Remove</button></td>
+                `;
+                cartItems.appendChild(row);
+            });
+            updateTotal();
+        }
+
+        function updateQuantity(id, quantity) {
+            const item = cart.find(item => item.id === id);
+            item.quantity = parseInt(quantity);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function removeItem(id) {
+            cart = cart.filter(item => item.id !== id);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function clearCart() {
+            cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function updateTotal() {
+            const totalAmount = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            document.getElementById('total-amount').innerText = `Total: $${totalAmount.toFixed(2)}`;
+        }
+
+        function checkout() {
+            alert('Proceeding to checkout...');
+            // Add your checkout logic here
+        }
+
+        document.addEventListener('DOMContentLoaded', loadCart);
+    </script>
+</body>
+</html>
